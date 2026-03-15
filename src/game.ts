@@ -5,7 +5,13 @@ import Block from '@/classes/Block'
 import Limits from '@/classes/Limits'
 import { VideoMemes } from '@/classes/VideoMemes'
 
-import { clearCanvas, drawResult, toggleItem, initBlocks } from '@/utils'
+import {
+  clearCanvas,
+  drawResult,
+  toggleItem,
+  initBlocks,
+  drawMoodShadow,
+} from '@/utils'
 
 const game = (canvas: HTMLCanvasElement, video: VideoMemes) => {
   const MAX_SLOW_DOWN = 750
@@ -24,6 +30,7 @@ const game = (canvas: HTMLCanvasElement, video: VideoMemes) => {
 
   let initTouchX: number | undefined = undefined
   let initTouchY: number | undefined = undefined
+  let targetTouchX: number | undefined = undefined
 
   const limits: Limits = new Limits(
     new BaseBlock(0, -10, canvas.width, 10),
@@ -92,7 +99,7 @@ const game = (canvas: HTMLCanvasElement, video: VideoMemes) => {
     initTouchY = touch.clientY
 
     if (playing) {
-      platform.moveTo(x - platform.width / 2)
+      targetTouchX = x - platform.width / 2
     }
   }
 
@@ -113,7 +120,7 @@ const game = (canvas: HTMLCanvasElement, video: VideoMemes) => {
 
     slowDownCf = Math.max(MAX_SLOW_DOWN - touchXDiff * 3, 250)
 
-    platform.moveTo(x - platform.width / 2)
+    targetTouchX = x - platform.width / 2
   }
 
   const onTouchEnd = () => {
@@ -122,6 +129,7 @@ const game = (canvas: HTMLCanvasElement, video: VideoMemes) => {
     slowDownCf = MAX_SLOW_DOWN
     initTouchX = undefined
     initTouchY = undefined
+    targetTouchX = undefined
   }
 
   document.addEventListener('touchstart', onTouchStart, {
@@ -149,11 +157,13 @@ const game = (canvas: HTMLCanvasElement, video: VideoMemes) => {
     clearCanvas(canvas)
 
     if (playing) {
+      const isSad = timestamp - lastHitTs > 1000
+      video.setSadMood(isSad)
+      drawMoodShadow(canvas, isSad)
+
       const dTimestamp: number = Math.min(16.7, timestamp - pTimestamp)
       const secondPart: number = dTimestamp / slowDownCf
       pTimestamp = timestamp
-
-      video.setSadMood(timestamp - lastHitTs > 1000)
 
       ball.updatePosition(secondPart)
 
@@ -163,6 +173,22 @@ const game = (canvas: HTMLCanvasElement, video: VideoMemes) => {
 
       if (platform.rightKey) {
         platform.moveRight(secondPart)
+      }
+
+      if (targetTouchX !== undefined) {
+        const diff = targetTouchX - platform.x
+        const moveDist = platform.speed * secondPart
+
+        if (Math.abs(diff) <= moveDist) {
+          platform.moveTo(targetTouchX)
+          targetTouchX = undefined
+        } else {
+          if (diff > 0) {
+            platform.moveRight(secondPart)
+          } else {
+            platform.moveLeft(secondPart)
+          }
+        }
       }
 
       for (const block of blocks) {

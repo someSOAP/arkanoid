@@ -40,6 +40,24 @@ export const drawResult = (canvas: HTMLCanvasElement) => {
   )
 }
 
+export const drawMoodShadow = (canvas: HTMLCanvasElement, isSad: boolean) => {
+  const context = canvas.getContext('2d')
+
+  if (!context) {
+    throw new Error('Canvas 2D context is null')
+  }
+
+  const gradient = context.createLinearGradient(0, 0, 0, 50)
+  gradient.addColorStop(
+    0,
+    isSad ? 'rgba(255, 0, 0, 0.4)' : 'rgba(0, 255, 0, 0.4)',
+  )
+  gradient.addColorStop(1, 'rgba(0, 0, 0, 0)')
+
+  context.fillStyle = gradient
+  context.fillRect(0, 0, canvas.width, 50)
+}
+
 export const initBlocks = (canvas: HTMLCanvasElement): Array<Block> => {
   const blocks: Array<Block> = []
 

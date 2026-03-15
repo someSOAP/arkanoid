@@ -37,7 +37,7 @@ export class VideoMemes {
     this.video.pause()
   }
 
-  async setSadMood(val: boolean) {
+  setSadMood(val: boolean) {
     if (val === this.isSad) {
       return
     }
