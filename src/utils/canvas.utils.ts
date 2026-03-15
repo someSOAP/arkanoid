@@ -20,12 +20,14 @@ export const drawResult = (canvas: HTMLCanvasElement) => {
 
   context.beginPath()
   context.rect(0, 0, canvas.width, canvas.height)
-  context.fillStyle = 'rgba(255, 255, 255, 0.7)'
+  context.fillStyle = 'rgba(255, 255, 255, 0.2)'
   context.fill()
 
   context.fillStyle = '#03175c'
   context.font = '600 48px "Fredoka", sans-serif'
   context.textAlign = 'center'
+  context.shadowColor = 'white'
+  context.shadowBlur = 10
   context.fillText('ARCANOID', canvas.width / 2, canvas.height / 2)
 
   const isMobile = window.matchMedia('(pointer: coarse)').matches
@@ -38,6 +40,8 @@ export const drawResult = (canvas: HTMLCanvasElement) => {
     canvas.width / 2,
     canvas.height / 2 + 48,
   )
+
+  context.shadowBlur = 0
 }
 
 export const drawMoodShadow = (canvas: HTMLCanvasElement, isSad: boolean) => {
