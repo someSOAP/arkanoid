@@ -10,6 +10,7 @@ import { clearCanvas, drawResult, toggleItem, initBlocks } from '@/utils'
 const game = (canvas: HTMLCanvasElement, video: VideoMemes) => {
   const MAX_SLOW_DOWN = 750
   const MIN_SLOW_DOWN = 250
+  const abortController = new AbortController()
 
   let lastHitTs = 0
   let slowDownCf: number = MAX_SLOW_DOWN
@@ -68,8 +69,12 @@ const game = (canvas: HTMLCanvasElement, video: VideoMemes) => {
     }
   }
 
-  document.addEventListener('keydown', onKeyDown)
-  document.addEventListener('keyup', onKeyUp)
+  document.addEventListener('keydown', onKeyDown, {
+    signal: abortController.signal,
+  })
+  document.addEventListener('keyup', onKeyUp, {
+    signal: abortController.signal,
+  })
 
   const onTouchStart = (event: TouchEvent) => {
     if (!playing) {
@@ -118,9 +123,15 @@ const game = (canvas: HTMLCanvasElement, video: VideoMemes) => {
     initTouchY = undefined
   }
 
-  document.addEventListener('touchstart', onTouchStart)
-  document.addEventListener('touchmove', onTouchMove)
-  document.addEventListener('touchend', onTouchEnd)
+  document.addEventListener('touchstart', onTouchStart, {
+    signal: abortController.signal,
+  })
+  document.addEventListener('touchmove', onTouchMove, {
+    signal: abortController.signal,
+  })
+  document.addEventListener('touchend', onTouchEnd, {
+    signal: abortController.signal,
+  })
 
   let pTimestamp: number = 0
   let playing: boolean = false
@@ -192,12 +203,7 @@ const game = (canvas: HTMLCanvasElement, video: VideoMemes) => {
 
   return () => {
     isUnsubscribed = true
-    document.removeEventListener('keydown', onKeyDown)
-    document.removeEventListener('keyup', onKeyUp)
-
-    document.removeEventListener('touchstart', onTouchStart)
-    document.removeEventListener('touchmove', onTouchMove)
-    document.removeEventListener('touchend', onTouchEnd)
+    abortController.abort()
   }
 }
 

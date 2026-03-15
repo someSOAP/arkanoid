@@ -1,7 +1,6 @@
 export * from './canvas.utils.ts'
 export * from './color.utils.ts'
 export * from './debounce.utils.ts'
-export * from './drawResult.ts'
 export * from './getRandom.ts'
 export * from './initBlocks.ts'
 export * from './toggleItem.ts'
