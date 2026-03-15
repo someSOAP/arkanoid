@@ -24,14 +24,14 @@ export const drawResult = (canvas: HTMLCanvasElement) => {
   context.fill()
 
   context.fillStyle = '#03175c'
-  context.font = 'bold 48px sans-serif'
+  context.font = '600 48px "Fredoka", sans-serif'
   context.textAlign = 'center'
   context.fillText('ARCANOID', canvas.width / 2, canvas.height / 2)
 
   const isMobile = window.matchMedia('(pointer: coarse)').matches
 
   context.fillStyle = '#414d75'
-  context.font = '24px sans-serif'
+  context.font = '24px "Fredoka", sans-serif'
   context.textAlign = 'center'
   context.fillText(
     isMobile ? 'Tap to continue' : 'Press any key to continue',
