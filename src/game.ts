@@ -195,11 +195,13 @@ const game = (canvas: HTMLCanvasElement, video: VideoMemes) => {
         if (block.checkIfIntersectedByBall(ball)) {
           lastHitTs = timestamp
           toggleItem(blocks, block)
+          ball.pushToCenter(canvas)
         }
       }
 
       if (ball.isIntersectedWith(limits.up)) {
         ball.horizontalHit()
+        ball.pushToCenter(canvas)
       }
 
       if (
@@ -207,6 +209,16 @@ const game = (canvas: HTMLCanvasElement, video: VideoMemes) => {
         ball.isIntersectedWith(limits.left)
       ) {
         ball.verticalHit()
+        ball.pushToCenter(canvas)
+      }
+
+      if (
+        ball.x < 0 ||
+        ball.x + ball.width > canvas.width ||
+        ball.y < 0 ||
+        ball.y > canvas.height
+      ) {
+        ball.pushToCenter(canvas)
       }
 
       if (ball.isIntersectedWith(limits.down)) {

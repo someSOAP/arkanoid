@@ -21,6 +21,21 @@ class Ball extends Sprite {
     this.angle = Math.PI / 4 + (Math.random() * Math.PI) / 2
   }
 
+  pushToCenter(canvas: HTMLCanvasElement): void {
+    const centerX = canvas.width / 2
+    const centerY = canvas.height / 2
+
+    const dx = centerX - this.x
+    const dy = centerY - this.y
+
+    const distance = Math.sqrt(dx * dx + dy * dy)
+
+    if (distance > 0) {
+      this.x += (dx / distance) * 2
+      this.y += (dy / distance) * 2
+    }
+  }
+
   updatePosition(dTime: number): void {
     const { x, y, speed, angle } = this
 
