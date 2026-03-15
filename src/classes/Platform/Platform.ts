@@ -40,6 +40,11 @@ class Platform extends Sprite {
     this.x = Math.min(canvas.width - width, x + dTime * speed)
   }
 
+  moveTo(x: number): void {
+    const { canvas, width } = this
+    this.x = Math.max(0, Math.min(canvas.width - width, x))
+  }
+
   checkIfIntersectedWithBall(ball: Ball): void {
     if (ball.isIntersectedWith(this)) {
       const x = ball.x + ball.width / 2

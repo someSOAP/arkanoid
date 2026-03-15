@@ -84,12 +84,20 @@ const game = (canvas: HTMLCanvasElement, video: VideoMemes) => {
     if (!touch) {
       return
     }
-    initTouchX = touch.clientX
+
+    const rect = canvas.getBoundingClientRect()
+    const x = touch.clientX - rect.left
+
+    initTouchX = x
     initTouchY = touch.clientY
+
+    if (playing) {
+      platform.moveTo(x - platform.width / 2)
+    }
   }
 
   const onTouchMove = (event: TouchEvent) => {
-    if (!initTouchX || !initTouchY) {
+    if (initTouchX === undefined || initTouchY === undefined) {
       return
     }
 
@@ -98,21 +106,14 @@ const game = (canvas: HTMLCanvasElement, video: VideoMemes) => {
       return
     }
 
+    const rect = canvas.getBoundingClientRect()
+    const x = touch.clientX - rect.left
+
     const touchXDiff = Math.abs(Math.min(touch.clientY - initTouchY, 0))
 
     slowDownCf = Math.max(MAX_SLOW_DOWN - touchXDiff * 3, 250)
 
-    if (touch.clientX > initTouchX) {
-      platform.leftKey = false
-      platform.rightKey = true
-      return
-    }
-
-    if (touch.clientX < initTouchX) {
-      platform.rightKey = false
-      platform.leftKey = true
-      return
-    }
+    platform.moveTo(x - platform.width / 2)
   }
 
   const onTouchEnd = () => {
