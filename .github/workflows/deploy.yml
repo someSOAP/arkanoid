@@ -32,6 +32,6 @@ jobs:
           source-directory: 'dist'
           destination-github-username: 'someSOAP'
           destination-repository-name: 'somesoap.github.io'
-          target-directory: 'arcanoid'
+          target-directory: 'arkanoid'
           user-email: 'actions@github.com'
           target-branch: main

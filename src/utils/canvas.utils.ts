@@ -28,7 +28,7 @@ export const drawResult = (canvas: HTMLCanvasElement) => {
   context.textAlign = 'center'
   context.shadowColor = 'white'
   context.shadowBlur = 10
-  context.fillText('ARCANOID', canvas.width / 2, canvas.height / 2)
+  context.fillText('ARKANOID', canvas.width / 2, canvas.height / 2)
 
   const isMobile = window.matchMedia('(pointer: coarse)').matches
 

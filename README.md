@@ -17,7 +17,7 @@ A modern take on the classic Arkanoid game built with TypeScript and Vite. This 
 - **HTML5 Canvas**: For rendering game elements.
 - **CSS3**: For styling and layout.
 
-The game is available at [somesoap.net/arcanoid](https://somesoap.net/arcanoid/).
+The game is available at [somesoap.net/arkanoid](https://somesoap.net/arcanoid/).
 This repository features automated deployment.
 
 ## Controls
