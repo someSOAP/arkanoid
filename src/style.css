@@ -12,6 +12,7 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background-color: #01030A;
+  overscroll-behavior: none;
 }
 
 
@@ -21,6 +22,9 @@ body {
   overflow: hidden;
   height: 100dvh;
   background-image: url(@/assets/space.jpg);
+  user-select: none;
+  -webkit-user-select: none;
+  overscroll-behavior: none;
 }
 
 
